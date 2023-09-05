@@ -9,26 +9,28 @@ router.get('/', async (req, res) => {
     res.json(err);
   });
   res.json(productData);
-  // find all products
+  
   // be sure to include its associated Category and Tag data
 });
 
 // get one product
-router.get('/:id', (req, res) => {
-  // find a single product by its `id`
+router.get('/:id', async (req, res) => {
+  const productData = await Product.findByPk(req.params.id).catch((err) => {
+    res.json(err);
+  });
+
+  res.json(productData);
   // be sure to include its associated Category and Tag data
 });
 
 // create new product
-router.post('/', (req, res) => {
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
+router.post('/', async (req, res) => {
+  const productData = await Product.create(req.body).catch((err) => {
+    res.json(err);
+  });
+
+  res.json(productData);
+
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
